@@ -1,14 +1,12 @@
-
 const express = require("express");
 const http = require("http");
 const socketIo = require("socket.io");
-const bodyParser = require("body-parser"); // Import body-parser middleware
-
+const bodyParser = require("body-parser");
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
 
-app.use(bodyParser.json()); // Use body-parser middleware to parse JSON bodies
+app.use(bodyParser.json());
 
 // Dummy data for demonstration
 const channels = ["messages", "orders"];
