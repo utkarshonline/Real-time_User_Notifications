@@ -1,0 +1,43 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Real-time Notifications</title>
+  </head>
+  <body>
+    <h1>Real-time Notifications</h1>
+    <div id="notifications"></div>
+
+    <script
+      src="https://cdn.socket.io/4.7.4/socket.io.min.js"
+      integrity="sha384-Gr6Lu2Ajx28mzwyVR8CFkULdCU7kMlZ9UthllibdOSo6qAiN+yXNHqtgdTvFXMT4"
+      crossorigin="anonymous"
+    ></script>
+
+    <script>
+      const socket = io("http://localhost:3000/", {
+        transports: ["websocket"],
+      });
+
+      // Function to handle receiving notifications
+      const handleNotification = (message) => {
+        const notificationsDiv = document.getElementById("notifications");
+        notificationsDiv.innerHTML += `<p>${message}</p>`;
+      };
+
+      // Connect to server
+      socket.on("connect", () => {
+        console.log("Connected to server");
+
+        // Subscribe to channels (you can customize this based on your application)
+        socket.emit("subscribe", "messages");
+        socket.emit("subscribe", "orders");
+      });
+
+      // Listen for notifications
+      socket.on("notification", handleNotification);
+    </script>
+  </body>
+</html>
